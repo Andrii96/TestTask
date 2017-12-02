@@ -7,20 +7,14 @@ using System.Threading.Tasks;
 
 namespace Insurance.Domain.Entities.SystemB
 {
-    public class Insurer : IEntity
+    public class Agent : IEntity
     {
         [Key]
         public Guid Id { get; set; }
 
         [Required]
-        public string FirstName { get; set; }
+        public string Name { get; set; }
 
-        [Required]
-        public string LastName { get; set; }
-
-        [Required]
-        public string Phone { get; set; }
-
-        public virtual InsurancePolicy InsurancePolicy { get; set; }
+        public virtual ICollection<InsurancePolicy> InsurancePolicies { get; set; }
     }
 }

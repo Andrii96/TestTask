@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Insurance.Domain.Entities.SystemB
+namespace Insurance.Domain.Entities.SystemC
 {
-    public class Insurer : IEntity
+    public class Insurer:IEntity
     {
         [Key]
         public Guid Id { get; set; }
@@ -17,9 +17,6 @@ namespace Insurance.Domain.Entities.SystemB
 
         [Required]
         public string LastName { get; set; }
-
-        [Required]
-        public string Phone { get; set; }
 
         public virtual InsurancePolicy InsurancePolicy { get; set; }
     }
