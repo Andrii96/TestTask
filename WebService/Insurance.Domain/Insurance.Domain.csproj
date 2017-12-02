@@ -48,11 +48,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\SystemA\Beneficiary.cs" />
+    <Compile Include="Entities\SystemA\InsurancePolicy.cs" />
+    <Compile Include="Entities\SystemA\Insurer.cs" />
+    <Compile Include="Entities\SystemB\Insurer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\SystemC\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

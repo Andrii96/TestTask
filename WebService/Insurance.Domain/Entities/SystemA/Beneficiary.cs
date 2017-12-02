@@ -19,6 +19,6 @@ namespace Insurance.Domain.Entities.SystemA
         [ForeignKey("InsurancePolicy")]
         public Guid InsurancePolicyId { get; set; }
 
-        public InsurancePolicy InsurancePolicy { get; set; }
+        public virtual InsurancePolicy InsurancePolicy { get; set; }
     }
 }
