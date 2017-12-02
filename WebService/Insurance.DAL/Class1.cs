@@ -8,5 +8,6 @@ namespace Insurance.DAL
 {
     public class Class1
     {
+
     }
 }
