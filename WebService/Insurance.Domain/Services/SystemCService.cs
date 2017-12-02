@@ -1,51 +1,53 @@
-﻿using Insurance.Domain.Abstract;
+﻿using Insurance.Api.Model.Dtos;
+using Insurance.Domain.Abstract;
+using Insurance.Domain.Contexts;
+using Insurance.Domain.Entities.SystemC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Insurance.Api.Model.Dtos;
-using Insurance.Domain.Entities.SystemA;
-using Insurance.Domain.Contexts;
 
 namespace Insurance.Domain.Services
 {
-    public class SystemAService : IAction
+    public class SystemCService:IAction
     {
         #region Properties
-            public IRepository<Insurer> InsurerRepositoty => new Repository<SystemADbContext, Insurer>();
-            public IRepository<InsurancePolicy> InsurancePolicyRepositoty => new Repository<SystemADbContext, InsurancePolicy>();
-            public IRepository<Beneficiary> BeneficiaryRepositoty => new Repository<SystemADbContext, Beneficiary>();
+        public IRepository<Insurer> InsurerRepositoty => new Repository<SystemCDbContext, Insurer>();
+        public IRepository<InsurancePolicy> InsurancePolicyRepositoty => new Repository<SystemCDbContext, InsurancePolicy>();
+        public IRepository<Agent> AgentRepositoty => new Repository<SystemCDbContext, Agent>();
+        public IRepository<Beneficiary> BeneficiaryRepository => new Repository<SystemCDbContext, Beneficiary>();
+
         #endregion
 
-        #region interface implementation
+        #region Implementation
 
         public IEnumerable<PolicyDto> GetActualPolicies()
         {
-            var actualPolicies = InsurancePolicyRepositoty.Get(p => p.IsActive);
+            var actualPolicies = InsurancePolicyRepositoty.Get(p => p.DateFrom < DateTime.Now && p.DateTill > DateTime.Now);
             return actualPolicies.Select(p => MapInsurancePolicy(p));
         }
 
         public IEnumerable<BeneficiaryDto> GetBeneficiariesByPolicy(Guid id)
         {
-            var beneficiares = BeneficiaryRepositoty.Get(b => b.InsurancePolicyId == id);
+            var beneficiares = BeneficiaryRepository.Get(b => b.InsurancePolicyId == id);
             return beneficiares.Select(b => MapBeneficiary(b));
         }
 
         public InsurerDto GetInsurerByPhone(string phone)
         {
-            return MapInsurer(InsurerRepositoty.Get(i => i.PhoneNumber == phone).FirstOrDefault());
+            return null;
         }
 
         public IEnumerable<PolicyDto> GetPoliciesByAgent(string agentName)
         {
-            var policies = InsurancePolicyRepositoty.Get(p => p.AgentName == agentName);
+            var policies = InsurancePolicyRepositoty.Get(p => p.Agent.Name == agentName);
             return policies.Select(p => MapInsurancePolicy(p));
         }
 
         public PolicyDto GetPolicyByInsurerPhone(string phone)
-        {           
-            return  MapInsurancePolicy(InsurancePolicyRepositoty.Get(p => p.Insurer.PhoneNumber == phone).FirstOrDefault());
+        {
+            return null;
         }
 
         #endregion
@@ -63,8 +65,21 @@ namespace Insurance.Domain.Services
             {
                 Id = insurer.Id,
                 FirstName = insurer.FirstName,
-                LastName = insurer.LastName,
-                Phone = insurer.PhoneNumber
+                LastName = insurer.LastName
+            };
+        }
+
+        private static AgentDto MapAgent(Agent agent)
+        {
+            if (agent == null)
+            {
+                return null;
+            }
+
+            return new AgentDto
+            {
+                Id = agent.Id,
+                Name = agent.Name
             };
         }
 
@@ -72,9 +87,8 @@ namespace Insurance.Domain.Services
         {
             if(beneficiary == null)
             {
-                return null; 
+                return null;
             }
-
             return new BeneficiaryDto
             {
                 Id = beneficiary.Id,
@@ -84,7 +98,7 @@ namespace Insurance.Domain.Services
 
         private static PolicyDto MapInsurancePolicy(InsurancePolicy policy)
         {
-            if(policy == null)
+            if (policy == null)
             {
                 return null;
             }
@@ -92,18 +106,16 @@ namespace Insurance.Domain.Services
             return new PolicyDto
             {
                 Id = policy.Id,
-                Agent = new AgentDto
-                {
-                    Name = policy.AgentName
-                },
-                IsActive = policy.IsActive,
+                DateFrom = policy.DateFrom,
+                DateTill = policy.DateTill,
                 Number = policy.Number,
-                Beneficiary = policy.Beneficiaries.Select(b => MapBeneficiary(b)),
-                Insurer = MapInsurer(policy.Insurer)
+                Agent = MapAgent(policy.Agent),
+                Insurer = MapInsurer(policy.Insurer),
+                Beneficiary = policy.Beneficiaries.Select(p=>MapBeneficiary(p))
             };
         }
-    
-        #endregion
 
+
+        #endregion
     }
 }

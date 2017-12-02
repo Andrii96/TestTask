@@ -15,6 +15,6 @@ namespace Insurance.Api.Model.Dtos
         public DateTime DateTill { get; set; }
         public InsurerDto Insurer { get; set; }
         public AgentDto Agent { get; set; }
-        public BeneficiaryDto Beneficiary { get; set; }
+        public IEnumerable<BeneficiaryDto> Beneficiary { get; set; }
     }
 }

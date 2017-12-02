@@ -19,7 +19,7 @@ namespace Insurance.Domain.Entities.SystemB
         public string LastName { get; set; }
 
         [Required]
-        public string Phone { get; set; }
+        public string PhoneNumber { get; set; }
 
         public virtual InsurancePolicy InsurancePolicy { get; set; }
     }

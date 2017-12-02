@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Insurance.Domain
+namespace Insurance.Domain.Services
 {
-    public class Class1
+    class Databases
     {
     }
 }

@@ -20,7 +20,7 @@ namespace Insurance.Domain.Entities.SystemA
         public bool IsActive { get; set; }
 
         [Required]
-        public string AgentModel { get; set; }
+        public string AgentName { get; set; }
 
         [ForeignKey("Insurer")]
         public Guid InsurerId { get; set; }
