@@ -10,7 +10,7 @@ namespace Insurance.Domain.Contexts
 {
     public class SystemCDbContext:DbContext
     {
-        public SystemCDbContext() : base("SystemCDbConnectionString") { }
+        public SystemCDbContext() : base("SystemCDb") { }
 
         public DbSet<Insurer> Insurer { get; set; }
         public DbSet<InsurancePolicy> InsurancePolicy { get; set; }

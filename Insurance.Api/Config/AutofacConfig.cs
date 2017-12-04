@@ -31,7 +31,7 @@ namespace Insurance.Api
 
             return builder.Build();
         }
-
+        //Register all database services
         private static IContainer RegisterCustomServices()
         {
             ContainerBuilder builder = new ContainerBuilder();

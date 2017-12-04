@@ -12,7 +12,8 @@ namespace Insurance.Domain.Abstract
        InsurerDto GetInsurerByPhone(string phone);
        PolicyDto  GetPolicyByInsurerPhone(string phone);
        IEnumerable<PolicyDto> GetActualPolicies();
-       IEnumerable<BeneficiaryDto> GetBeneficiariesByPolicy(Guid id);
-       IEnumerable<PolicyDto> GetPoliciesByAgent(string agentName);
+       IEnumerable<BeneficiaryDto> GetBeneficiariesByPolicy(long policyNumber);
+       IEnumerable<long> GetPoliciesNumbersByAgent(string agentName);
+       PolicyDto GetPolicyByNumber(long number);
     }
 }

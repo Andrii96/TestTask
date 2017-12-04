@@ -25,7 +25,7 @@ namespace Insurance.Domain.Entities.SystemA
         //[ForeignKey("Insurer")]
         //public Guid InsurerId { get; set; }
        
-        public Insurer Insurer { get; set; }
+        public virtual Insurer Insurer { get; set; }
         public virtual ICollection<Beneficiary> Beneficiaries { get; set; }
        
     }

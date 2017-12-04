@@ -25,13 +25,18 @@ namespace Insurance.Domain.Services
         public IEnumerable<PolicyDto> GetActualPolicies()
         {
             var actualPolicies = InsurancePolicyRepositoty.Get(p => p.DateFrom < DateTime.Now && p.DateTill > DateTime.Now);
-            return actualPolicies.Select(p => MapInsurancePolicy(p));
+            return actualPolicies.Select(p => MapInsurancePolicy(p)).ToList();
         }
 
-        public IEnumerable<BeneficiaryDto> GetBeneficiariesByPolicy(Guid id)
+        public IEnumerable<BeneficiaryDto> GetBeneficiariesByPolicy(long policyNumber)
         {
-            var beneficiares = BeneficiaryRepository.Get(b => b.InsurancePolicyId == id);
-            return beneficiares.Select(b => MapBeneficiary(b));
+            var policy = InsurancePolicyRepositoty.Get(p => p.Number == policyNumber).FirstOrDefault();
+            if (policy == null)
+            {
+                return null;
+            }
+            var beneficiares = BeneficiaryRepository.Get(b => b.InsurancePolicyId == policy.Id);
+            return beneficiares.Select(b => MapBeneficiary(b)).ToList();
         }
 
         public InsurerDto GetInsurerByPhone(string phone)
@@ -39,15 +44,20 @@ namespace Insurance.Domain.Services
             return null;
         }
 
-        public IEnumerable<PolicyDto> GetPoliciesByAgent(string agentName)
+        public IEnumerable<long> GetPoliciesNumbersByAgent(string agentName)
         {
             var policies = InsurancePolicyRepositoty.Get(p => p.Agent.Name == agentName);
-            return policies.Select(p => MapInsurancePolicy(p));
+            return policies.Select(p => p.Number).ToList();
         }
 
         public PolicyDto GetPolicyByInsurerPhone(string phone)
         {
             return null;
+        }
+
+        public PolicyDto GetPolicyByNumber(long number)
+        {
+            return MapInsurancePolicy(InsurancePolicyRepositoty.Get(p => p.Number == number).FirstOrDefault());
         }
 
         #endregion
@@ -111,10 +121,10 @@ namespace Insurance.Domain.Services
                 Number = policy.Number,
                 Agent = MapAgent(policy.Agent),
                 Insurer = MapInsurer(policy.Insurer),
-                Beneficiary = policy.Beneficiaries.Select(p=>MapBeneficiary(p))
+                Beneficiary = policy.Beneficiaries.Select(p=>MapBeneficiary(p)),
+                IsActive = policy.DateFrom < DateTime.Now && policy.DateTill > DateTime.Now
             };
         }
-
 
         #endregion
     }

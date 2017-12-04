@@ -104,7 +104,7 @@
     <Compile Include="Config\AutofacConfig.cs" />
     <Compile Include="Config\SwaggerConfig.cs" />
     <Compile Include="Config\WebApiConfig.cs" />
-    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\InsuranceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

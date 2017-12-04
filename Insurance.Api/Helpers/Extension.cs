@@ -7,29 +7,31 @@ namespace Insurance.Api.Helpers
 {
     public static class Extension
     {
-        private static T MergeObjects<T>(IEnumerable<T> list) where T : new()
+        public static T MergeObjects<T>(this IEnumerable<T> list) where T : new()
         {
             var resultObject = new T();
             var properties = typeof(T).GetProperties();
 
             foreach (var item in list)
             {
+                if (item == null) continue;
+
                 foreach (var property in properties)
                 {
                     var value = property.GetValue(item);
                     var resultObjectPropertyValue = property.GetValue(resultObject);
 
-                    if (value != DefaultValue(property.GetType()))
+                    if (value!=null && !value.Equals(DefaultValue(property.PropertyType)))
                     {
                         if (property.PropertyType.Name == "IEnumerable`1" && resultObjectPropertyValue != null)
                         {
-                            var unionMethod = typeof(System.Linq.Enumerable).GetMethods()
-                                                                       .Single(m => m.Name == "Union" &&
-                                                                                    m.GetGenericArguments().Length == 1 &&
-                                                                                    m.GetParameters().Length == 2)
-                                                                       .MakeGenericMethod(property.PropertyType
-                                                                                                  .GetGenericArguments()
-                                                                                                  .First());
+                            var unionMethod = typeof(Enumerable).GetMethods()
+                                                                .Single(m => m.Name == "Union" &&
+                                                                            m.GetGenericArguments().Length == 1 &&
+                                                                            m.GetParameters().Length == 2)
+                                                                .MakeGenericMethod(property.PropertyType
+                                                                                            .GetGenericArguments()
+                                                                                            .First());
 
                             var union = unionMethod.Invoke(null, new object[] { resultObjectPropertyValue, value });
 
@@ -52,7 +54,8 @@ namespace Insurance.Api.Helpers
         {
             if (T.IsValueType)
             {
-                return Activator.CreateInstance(T);
+                var instance = Activator.CreateInstance(T);
+                return instance;
             }
             return null;
         }

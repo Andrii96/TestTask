@@ -24,10 +24,10 @@ namespace Insurance.Domain.Services
         public IEnumerable<PolicyDto> GetActualPolicies()
         {
             var actualPolicies = InsurancePolicyRepositoty.Get(p => p.DateFrom < DateTime.Now && p.DateTill > DateTime.Now);
-            return actualPolicies.Select(p => MapInsurancePolicy(p));
+            return actualPolicies.Select(p => MapInsurancePolicy(p)).ToList();
         }
 
-        public IEnumerable<BeneficiaryDto> GetBeneficiariesByPolicy(Guid id)
+        public IEnumerable<BeneficiaryDto> GetBeneficiariesByPolicy(long policyNumber)
         {
             return null;
         }
@@ -37,15 +37,20 @@ namespace Insurance.Domain.Services
             return MapInsurer(InsurerRepositoty.Get(i => i.PhoneNumber == phone).FirstOrDefault());
         }
 
-        public IEnumerable<PolicyDto> GetPoliciesByAgent(string agentName)
+        public IEnumerable<long> GetPoliciesNumbersByAgent(string agentName)
         {
             var policies = InsurancePolicyRepositoty.Get(p => p.Agent.Name == agentName);
-            return policies.Select(p => MapInsurancePolicy(p));
+            return policies.Select(p => p.Number).ToList();
         }
 
         public PolicyDto GetPolicyByInsurerPhone(string phone)
         {
             return MapInsurancePolicy(InsurancePolicyRepositoty.Get(p => p.Insurer.PhoneNumber == phone).FirstOrDefault());
+        }
+
+        public PolicyDto GetPolicyByNumber(long number)
+        {
+            return MapInsurancePolicy(InsurancePolicyRepositoty.Get(p => p.Number == number).FirstOrDefault());
         }
 
         #endregion
@@ -96,10 +101,10 @@ namespace Insurance.Domain.Services
                 DateTill = policy.DateTill,
                 Number = policy.Number,
                 Agent = MapAgent(policy.Agent),
-                Insurer = MapInsurer(policy.Insurer)
+                Insurer = MapInsurer(policy.Insurer),
+                IsActive = policy.DateFrom < DateTime.Now && policy.DateTill > DateTime.Now
             };
         }
-
 
         #endregion
 

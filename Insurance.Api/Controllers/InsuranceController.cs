@@ -11,14 +11,23 @@ using Insurance.Api.Helpers;
 
 namespace Insurance.Api.Controllers
 {
-    [RoutePrefix("api/test")]
-    public class TestController : ApiController
+    [RoutePrefix("api/insurance")]
+    public class InsuranceController : ApiController
     {
-        private readonly IContainer _providersContainer;
-        public TestController(IContainer container)
+        #region Fields
+            private readonly IContainer _providersContainer;
+        #endregion
+
+        #region Constructor
+
+        public InsuranceController(IContainer container)
         {
             _providersContainer = container;
         }
+
+        #endregion
+
+        #region Api
 
         /// <summary>
         /// Searches and aggregates insurer data from all systems in one object 
@@ -29,14 +38,14 @@ namespace Insurance.Api.Controllers
         [Route("GetInsurerByPhone")]
         public IHttpActionResult GetInsurerByPhone(string phoneNumber)
         {
-            if(string.IsNullOrWhiteSpace(phoneNumber))
+            if (string.IsNullOrWhiteSpace(phoneNumber))
             {
                 return BadRequest("Incorrect phone number");
             }
 
             var data = _providersContainer.Resolve<IEnumerable<IAction>>()
-                                 .Select(service => service.GetInsurerByPhone(phoneNumber))?.MergeObjects();
-            
+                                 .Select(service => service.GetInsurerByPhone(phoneNumber)).ToList()?.MergeObjects();
+
             return Ok(data);
         }
 
@@ -55,7 +64,7 @@ namespace Insurance.Api.Controllers
             }
 
             var data = _providersContainer.Resolve<IEnumerable<IAction>>()
-                                 .Select(service => service.GetPolicyByInsurerPhone(phoneNumber))?.MergeObjects();
+                                 .Select(service => service.GetPolicyByInsurerPhone(phoneNumber)).ToList()?.MergeObjects();
             return Ok(data);
         }
 
@@ -68,27 +77,46 @@ namespace Insurance.Api.Controllers
         public IHttpActionResult GetActualPolicies()
         {
             var data = _providersContainer.Resolve<IEnumerable<IAction>>()
-                                 .Select(service => service.GetActualPolicies()?.MergeObjects());
-            return Ok(data);
+                                 .Select(service => service.GetActualPolicies()).ToList();
+            var result = new List<PolicyDto>();
+
+            for (int i = 0; i < data.First().Count(); i++)
+            {
+                List<PolicyDto> policies = new List<PolicyDto>();
+                foreach (var item in data)
+                {
+                    policies.Add(item.ElementAt(i));
+                }
+                result.Add(policies.MergeObjects());
+            }
+            return Ok(result);
         }
 
         /// <summary>
         /// Searches and aggregates beneficiaries data from all systems
         /// </summary>
-        /// <param name="policyId">Particular policy identifier</param>
+        /// <param name="policyNumber">Particular policy number</param>
         /// <returns>List of aggregated beneficiary data</returns>
         [HttpGet]
         [Route("GetBeneficiariesByPolicy")]
-        public IHttpActionResult GetBeneficiariesByPolicy(Guid policyId)
+        public IHttpActionResult GetBeneficiariesByPolicy(long policyNumber)
         {
-            if (string.IsNullOrWhiteSpace(policyId.ToString()))
+            if (string.IsNullOrWhiteSpace(policyNumber.ToString()))
             {
-                return BadRequest("Incorrect policy id");
+                return BadRequest("Incorrect policy number");
             }
 
             var data = _providersContainer.Resolve<IEnumerable<IAction>>()
-                                 .Select(service => service.GetBeneficiariesByPolicy(policyId)?.MergeObjects());
-            return Ok(data);
+                                 .Select(service => service.GetBeneficiariesByPolicy(policyNumber)).ToList();
+            var list = new List<BeneficiaryDto>();
+            foreach (var item in data)
+            {
+                if (item != null)
+                {
+                    list.AddRange(item);
+                }
+            }
+            return Ok(list);
         }
 
         /// <summary>
@@ -104,10 +132,26 @@ namespace Insurance.Api.Controllers
             {
                 return BadRequest("Incorrect agent name");
             }
+            var list = new List<long>();
+            var result = new List<PolicyDto>();
 
             var data = _providersContainer.Resolve<IEnumerable<IAction>>()
-                                 .Select(service => service.GetPoliciesByAgent(agentName)?.MergeObjects());
-            return Ok(data);
+                                .Select(service => service.GetPoliciesNumbersByAgent(agentName)).ToList();
+
+            data.ForEach(item => list = list.Union(item).ToList());
+
+            foreach (var number in list)
+            {
+                var policy = _providersContainer.Resolve<IEnumerable<IAction>>().Select(service => service.GetPolicyByNumber(number))
+                                                                                .ToList()
+                                                                                .MergeObjects();
+                result.Add(policy);
+            }
+
+            return Ok(result);
         }
+
+        #endregion
+
     }
 }
