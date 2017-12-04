@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\SystemA\Beneficiary.cs" />
     <Compile Include="Entities\SystemA\InsurancePolicy.cs" />
@@ -59,25 +58,30 @@
     <Compile Include="Entities\SystemC\InsurancePolicy.cs" />
     <Compile Include="Entities\SystemC\Insurer.cs" />
     <Compile Include="Entities\SystemC\Agent.cs" />
-
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Contexts\SystemADbContext.cs" />
     <Compile Include="Contexts\SystemBDbContext.cs" />
     <Compile Include="Contexts\SystemCDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="bin\Debug" />
     <Compile Include="Services\SystemAService.cs" />
     <Compile Include="Abstract\IRepository.cs" />
-
-    <Compile Include="Abstract\ISystem.cs" />
-    
+    <Compile Include="Abstract\IAction.cs" />
+    <Compile Include="Services\SystemBService.cs" />
+    <Compile Include="Services\SystemCService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Entities\SystemC\" />
+    <ProjectReference Include="..\Insurance.Api.Model\Insurance.Api.Model.csproj">
+      <Project>{e9fed925-9e76-4263-a172-f2fb5b397bba}</Project>
+      <Name>Insurance.Api.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
