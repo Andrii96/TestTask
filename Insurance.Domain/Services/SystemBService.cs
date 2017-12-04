@@ -16,7 +16,7 @@ namespace Insurance.Domain.Services
         public IRepository<Insurer> InsurerRepositoty => new Repository<SystemBDbContext, Insurer>();
         public IRepository<InsurancePolicy> InsurancePolicyRepositoty => new Repository<SystemBDbContext, InsurancePolicy>();
         public IRepository<Agent> AgentRepositoty => new Repository<SystemBDbContext, Agent>();
-
+              
         #endregion
 
         #region Implementation

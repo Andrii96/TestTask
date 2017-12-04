@@ -10,7 +10,7 @@ namespace Insurance.Domain.Entities.SystemC
 {
     public class InsurancePolicy:IEntity
     {
-        [Key]
+        [Key, ForeignKey("Insurer")]
         public Guid Id { get; set; }
 
         [Required]
@@ -22,8 +22,8 @@ namespace Insurance.Domain.Entities.SystemC
         [Required]
         public DateTime DateTill { get; set; }
 
-        [ForeignKey("Insurer")]
-        public Guid InsurerId { get; set; }
+        //[]
+        //public Guid InsurerId { get; set; }
 
         [ForeignKey("Agent")]
         public Guid AgentId { get; set; }

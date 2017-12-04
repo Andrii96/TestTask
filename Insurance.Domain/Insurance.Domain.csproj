@@ -58,6 +58,21 @@
     <Compile Include="Entities\SystemC\InsurancePolicy.cs" />
     <Compile Include="Entities\SystemC\Insurer.cs" />
     <Compile Include="Entities\SystemC\Agent.cs" />
+    <Compile Include="Migrations\SystemADbContext\201712041259278_InitialSystemADatabaseCreation.cs" />
+    <Compile Include="Migrations\SystemADbContext\201712041259278_InitialSystemADatabaseCreation.Designer.cs">
+      <DependentUpon>201712041259278_InitialSystemADatabaseCreation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\SystemADbContext\Configuration.cs" />
+    <Compile Include="Migrations\SystemBDbContext\201712041300113_InitialSystemBDatabaseCreation.cs" />
+    <Compile Include="Migrations\SystemBDbContext\201712041300113_InitialSystemBDatabaseCreation.Designer.cs">
+      <DependentUpon>201712041300113_InitialSystemBDatabaseCreation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\SystemBDbContext\Configuration.cs" />
+    <Compile Include="Migrations\SystemCDbContext\201712041300340_InitialSystemCDatabaseCreation.cs" />
+    <Compile Include="Migrations\SystemCDbContext\201712041300340_InitialSystemCDatabaseCreation.Designer.cs">
+      <DependentUpon>201712041300340_InitialSystemCDatabaseCreation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\SystemCDbContext\Configuration.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
@@ -76,12 +91,22 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Insurance.Api.Model\Insurance.Api.Model.csproj">
       <Project>{e9fed925-9e76-4263-a172-f2fb5b397bba}</Project>
       <Name>Insurance.Api.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\SystemADbContext\201712041259278_InitialSystemADatabaseCreation.resx">
+      <DependentUpon>201712041259278_InitialSystemADatabaseCreation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\SystemBDbContext\201712041300113_InitialSystemBDatabaseCreation.resx">
+      <DependentUpon>201712041300113_InitialSystemBDatabaseCreation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\SystemCDbContext\201712041300340_InitialSystemCDatabaseCreation.resx">
+      <DependentUpon>201712041300340_InitialSystemCDatabaseCreation.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

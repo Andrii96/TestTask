@@ -10,7 +10,7 @@ namespace Insurance.Domain.Entities.SystemA
 {
     public class InsurancePolicy : IEntity
     {
-        [Key]
+        [Key, ForeignKey("Insurer")]
         public Guid Id { get; set ; }
 
         [Required]
@@ -22,8 +22,8 @@ namespace Insurance.Domain.Entities.SystemA
         [Required]
         public string AgentName { get; set; }
 
-        [ForeignKey("Insurer")]
-        public Guid InsurerId { get; set; }
+        //[ForeignKey("Insurer")]
+        //public Guid InsurerId { get; set; }
        
         public Insurer Insurer { get; set; }
         public virtual ICollection<Beneficiary> Beneficiaries { get; set; }
