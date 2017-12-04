@@ -7,15 +7,9 @@ namespace Insurance.Api.Helpers
 {
     public static class Extension
     {
-        public static T MergeObjects<T>(this IEnumerable<T> list) where T : new()
+        private static T MergeObjects<T>(IEnumerable<T> list) where T : new()
         {
             var resultObject = new T();
-
-            if (typeof(T).IsValueType)
-            {
-                return resultObject;
-            }
-
             var properties = typeof(T).GetProperties();
 
             foreach (var item in list)
@@ -23,17 +17,34 @@ namespace Insurance.Api.Helpers
                 foreach (var property in properties)
                 {
                     var value = property.GetValue(item);
+                    var resultObjectPropertyValue = property.GetValue(resultObject);
+
                     if (value != DefaultValue(property.GetType()))
                     {
-                        //if (property.GetType().GetInterfaces().Contains(typeof(IEnumerable<>)))
-                        //{
-                        //    value
-                        //}
+                        if (property.PropertyType.Name == "IEnumerable`1" && resultObjectPropertyValue != null)
+                        {
+                            var unionMethod = typeof(System.Linq.Enumerable).GetMethods()
+                                                                       .Single(m => m.Name == "Union" &&
+                                                                                    m.GetGenericArguments().Length == 1 &&
+                                                                                    m.GetParameters().Length == 2)
+                                                                       .MakeGenericMethod(property.PropertyType
+                                                                                                  .GetGenericArguments()
+                                                                                                  .First());
+
+                            var union = unionMethod.Invoke(null, new object[] { resultObjectPropertyValue, value });
+
+                            var toListMethod = typeof(System.Linq.Enumerable).GetMethod("ToList")
+                                                                             .MakeGenericMethod(property.PropertyType
+                                                                                                        .GetGenericArguments()
+                                                                                                        .First());
+                            value = toListMethod.Invoke(null, new object[] { union });
+
+                        }
+
                         property.SetValue(resultObject, value);
                     }
                 }
             }
-
             return resultObject;
         }
 
