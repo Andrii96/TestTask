@@ -25,6 +25,10 @@ namespace Insurance.Api.Helpers
                     var value = property.GetValue(item);
                     if (value != DefaultValue(property.GetType()))
                     {
+                        //if (property.GetType().GetInterfaces().Contains(typeof(IEnumerable<>)))
+                        //{
+                        //    value
+                        //}
                         property.SetValue(resultObject, value);
                     }
                 }
