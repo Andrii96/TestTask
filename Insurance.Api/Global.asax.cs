@@ -12,6 +12,8 @@ namespace Insurance.Api
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            GlobalConfiguration.Configure(AutofacConfig.Initialize);
+            SwaggerConfig.Register();
         }
     }
 }
