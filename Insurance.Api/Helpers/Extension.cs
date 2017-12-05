@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -23,7 +24,7 @@ namespace Insurance.Api.Helpers
 
                     if (value!=null && !value.Equals(DefaultValue(property.PropertyType)))
                     {
-                        if (property.PropertyType.Name == "IEnumerable`1" && resultObjectPropertyValue != null)
+                        if (property.PropertyType.DoesTypeSupportInterface(typeof(IEnumerable)) && resultObjectPropertyValue != null)
                         {
                             var unionMethod = typeof(Enumerable).GetMethods()
                                                                 .Single(m => m.Name == "Union" &&
@@ -35,7 +36,7 @@ namespace Insurance.Api.Helpers
 
                             var union = unionMethod.Invoke(null, new object[] { resultObjectPropertyValue, value });
 
-                            var toListMethod = typeof(System.Linq.Enumerable).GetMethod("ToList")
+                            var toListMethod = typeof(Enumerable).GetMethod("ToList")
                                                                              .MakeGenericMethod(property.PropertyType
                                                                                                         .GetGenericArguments()
                                                                                                         .First());
@@ -50,6 +51,11 @@ namespace Insurance.Api.Helpers
             return resultObject;
         }
 
+        public static bool DoesTypeSupportInterface(this Type type, Type interfaceType)
+        {
+            return type.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == interfaceType);
+        }
+
         private static object DefaultValue(Type T)
         {
             if (T.IsValueType)
@@ -59,6 +65,5 @@ namespace Insurance.Api.Helpers
             }
             return null;
         }
-
     }
 }
