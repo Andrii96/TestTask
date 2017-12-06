@@ -58,6 +58,7 @@
     <Compile Include="Entities\SystemC\InsurancePolicy.cs" />
     <Compile Include="Entities\SystemC\Insurer.cs" />
     <Compile Include="Entities\SystemC\Agent.cs" />
+    <Compile Include="Mapper\Mapper.cs" />
     <Compile Include="Migrations\SystemADbContext\201712041259278_InitialSystemADatabaseCreation.cs" />
     <Compile Include="Migrations\SystemADbContext\201712041259278_InitialSystemADatabaseCreation.Designer.cs">
       <DependentUpon>201712041259278_InitialSystemADatabaseCreation.cs</DependentUpon>
@@ -85,7 +86,9 @@
     <Compile Include="Services\SystemCService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

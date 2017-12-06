@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Insurance.Domain.Mapper;
+using Insurance.Api.Model;
 
 namespace Insurance.Domain.Services
 {
@@ -18,7 +19,7 @@ namespace Insurance.Domain.Services
         public IRepository<InsurancePolicy> InsurancePolicyRepositoty => new Repository<SystemCDbContext, InsurancePolicy>();
         public IRepository<Agent> AgentRepositoty => new Repository<SystemCDbContext, Agent>();
         public IRepository<Beneficiary> BeneficiaryRepository => new Repository<SystemCDbContext, Beneficiary>();
-
+        public Systems Name => Systems.SystemC;
         #endregion
 
         #region Implementation

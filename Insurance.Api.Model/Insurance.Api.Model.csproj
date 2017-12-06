@@ -46,6 +46,7 @@
     <Compile Include="Dtos\Interfaces\IDto.cs" />
     <Compile Include="Dtos\PolicyDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Systems.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

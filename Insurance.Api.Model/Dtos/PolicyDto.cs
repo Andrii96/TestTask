@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Insurance.Api.Model.Dtos
 {
-    public class PolicyDto : Interfaces.IDto
+    public class PolicyDto //: Interfaces.IDto
     {
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
         public long Number { get; set; }
         public bool IsActive { get; set; }
         public DateTime DateFrom { get; set; }

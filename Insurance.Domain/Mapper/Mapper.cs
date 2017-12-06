@@ -18,7 +18,7 @@ namespace Insurance.Domain.Mapper
 
                 return new InsurerDto
                 {
-                    Id = insurer.Id,
+                    //Id = insurer.Id,
                     FirstName = insurer.FirstName,
                     LastName = insurer.LastName,
                     Phone = insurer.PhoneNumber
@@ -34,7 +34,7 @@ namespace Insurance.Domain.Mapper
 
             return new InsurerDto
             {
-                Id = insurer.Id,
+                //Id = insurer.Id,
                 FirstName = insurer.FirstName,
                 LastName = insurer.LastName,
                 Phone = insurer.PhoneNumber
@@ -50,7 +50,7 @@ namespace Insurance.Domain.Mapper
 
             return new InsurerDto
             {
-                Id = insurer.Id,
+               // Id = insurer.Id,
                 FirstName = insurer.FirstName,
                 LastName = insurer.LastName
             };
@@ -65,7 +65,7 @@ namespace Insurance.Domain.Mapper
 
             return new BeneficiaryDto
             {
-                Id = beneficiary.Id,
+                //Id = beneficiary.Id,
                 Name = beneficiary.Name
             };
         }
@@ -79,7 +79,7 @@ namespace Insurance.Domain.Mapper
 
             return new BeneficiaryDto
             {
-                Id = beneficiary.Id,
+                //Id = beneficiary.Id,
                 Name = beneficiary.Name
             };
         }
@@ -93,7 +93,7 @@ namespace Insurance.Domain.Mapper
 
             return new PolicyDto
             {
-                Id = policy.Id,
+                //Id = policy.Id,
                 Agent = new AgentDto
                 {
                     Name = policy.AgentName
@@ -116,7 +116,7 @@ namespace Insurance.Domain.Mapper
 
             return new PolicyDto
             {
-                Id = policy.Id,
+               // Id = policy.Id,
                 DateFrom = policy.DateFrom,
                 DateTill = policy.DateTill,
                 Number = policy.Number,
@@ -135,7 +135,7 @@ namespace Insurance.Domain.Mapper
 
             return new PolicyDto
             {
-                Id = policy.Id,
+                //Id = policy.Id,
                 DateFrom = policy.DateFrom,
                 DateTill = policy.DateTill,
                 Number = policy.Number,
@@ -155,7 +155,7 @@ namespace Insurance.Domain.Mapper
 
             return new AgentDto
             {
-                Id = agent.Id,
+               // Id = agent.Id,
                 Name = agent.Name
             };
         }
@@ -169,7 +169,7 @@ namespace Insurance.Domain.Mapper
 
             return new AgentDto
             {
-                Id = agent.Id,
+                //Id = agent.Id,
                 Name = agent.Name
             };
         }

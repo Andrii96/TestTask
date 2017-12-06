@@ -8,6 +8,7 @@ using Insurance.Api.Model.Dtos;
 using Insurance.Domain.Contexts;
 using Insurance.Domain.Entities.SystemB;
 using Insurance.Domain.Mapper;
+using Insurance.Api.Model;
 
 namespace Insurance.Domain.Services
 {
@@ -17,7 +18,7 @@ namespace Insurance.Domain.Services
         public IRepository<Insurer> InsurerRepositoty => new Repository<SystemBDbContext, Insurer>();
         public IRepository<InsurancePolicy> InsurancePolicyRepositoty => new Repository<SystemBDbContext, InsurancePolicy>();
         public IRepository<Agent> AgentRepositoty => new Repository<SystemBDbContext, Agent>();
-              
+        public Systems Name => Systems.SystemB;
         #endregion
 
         #region Implementation

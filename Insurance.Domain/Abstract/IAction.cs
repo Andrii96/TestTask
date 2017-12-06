@@ -1,4 +1,5 @@
-﻿using Insurance.Api.Model.Dtos;
+﻿using Insurance.Api.Model;
+using Insurance.Api.Model.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Insurance.Domain.Abstract
 {
     public interface IAction
     {
+       Systems Name { get; }
        InsurerDto GetInsurerByPhone(string phone);
        PolicyDto  GetPolicyByInsurerPhone(string phone);
        IEnumerable<PolicyDto> GetActualPolicies();

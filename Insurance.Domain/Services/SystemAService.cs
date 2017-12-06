@@ -8,6 +8,7 @@ using Insurance.Api.Model.Dtos;
 using Insurance.Domain.Entities.SystemA;
 using Insurance.Domain.Contexts;
 using Insurance.Domain.Mapper;
+using Insurance.Api.Model;
 
 namespace Insurance.Domain.Services
 {
@@ -17,6 +18,7 @@ namespace Insurance.Domain.Services
             public IRepository<Insurer> InsurerRepositoty => new Repository<SystemADbContext, Insurer>();
             public IRepository<InsurancePolicy> InsurancePolicyRepositoty => new Repository<SystemADbContext, InsurancePolicy>();
             public IRepository<Beneficiary> BeneficiaryRepositoty => new Repository<SystemADbContext, Beneficiary>();
+            public Systems Name => Systems.SystemA;
         #endregion
 
         #region interface implementation

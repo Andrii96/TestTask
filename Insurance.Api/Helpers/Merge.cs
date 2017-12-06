@@ -12,11 +12,20 @@ namespace Insurance.Api.Helpers
         {
             var mergedInsurer = new InsurerDto();
 
-            foreach(var insurer in insurers.ToList())
+            foreach(var insurer in insurers.Where(i => i != null))
             {
-                mergedInsurer.FirstName = insurer?.FirstName;
-                mergedInsurer.LastName = insurer?.LastName;
-                mergedInsurer.Phone = insurer?.Phone;
+                if(insurer.FirstName != null)
+                {
+                    mergedInsurer.FirstName = insurer.FirstName;
+                }
+                if (insurer.LastName != null)
+                {
+                    mergedInsurer.LastName = insurer.LastName;
+                }
+                if (insurer.Phone != null)
+                {
+                    mergedInsurer.Phone = insurer.Phone;
+                }
             }
             return mergedInsurer;
         }
@@ -25,9 +34,9 @@ namespace Insurance.Api.Helpers
         {
             var mergedPolicies = new PolicyDto() {Beneficiary = new List<BeneficiaryDto>() };
 
-            foreach (var policy in policies)
+            foreach (var policy in policies.Where(p => p != null))
             {
-                mergedPolicies.Agent = policy?.Agent;
+                mergedPolicies.Agent = policy.Agent;
                 if (policy.DateFrom != default(DateTime))
                 {
                     mergedPolicies.DateFrom = policy.DateFrom;
@@ -36,11 +45,18 @@ namespace Insurance.Api.Helpers
                 {
                     mergedPolicies.DateTill = policy.DateTill;
                 }
-                mergedPolicies.Beneficiary = mergedPolicies.Beneficiary
-                                                           .Union(policy.Beneficiary)
-                                                           .ToList();
-                mergedPolicies.Insurer = policy?.Insurer;
-
+                if(policy.Beneficiary != null)
+                {
+                    mergedPolicies.Beneficiary = mergedPolicies.Beneficiary
+                                                        .Union(policy.Beneficiary)
+                                                        .ToList();
+                }
+             
+                if(policy.Insurer != null)
+                {
+                    mergedPolicies.Insurer = policy.Insurer;
+                }
+                
                 if (policy.Number != default(long))
                 {
                     mergedPolicies.Number = policy.Number;
@@ -50,6 +66,5 @@ namespace Insurance.Api.Helpers
 
             return mergedPolicies;
         }
-       
     }
 }
