@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Insurance.Api.Model.Dtos;
 using Insurance.Domain.Contexts;
 using Insurance.Domain.Entities.SystemB;
+using Insurance.Domain.Mapper;
 
 namespace Insurance.Domain.Services
 {
@@ -24,7 +25,7 @@ namespace Insurance.Domain.Services
         public IEnumerable<PolicyDto> GetActualPolicies()
         {
             var actualPolicies = InsurancePolicyRepositoty.Get(p => p.DateFrom < DateTime.Now && p.DateTill > DateTime.Now);
-            return actualPolicies.Select(p => MapInsurancePolicy(p)).ToList();
+            return actualPolicies.Select(p => p.MapInsurancePolicy()).ToList();
         }
 
         public IEnumerable<BeneficiaryDto> GetBeneficiariesByPolicy(long policyNumber)
@@ -34,7 +35,7 @@ namespace Insurance.Domain.Services
 
         public InsurerDto GetInsurerByPhone(string phone)
         {
-            return MapInsurer(InsurerRepositoty.Get(i => i.PhoneNumber == phone).FirstOrDefault());
+            return InsurerRepositoty.Get(i => i.PhoneNumber == phone).FirstOrDefault().MapInsurer();
         }
 
         public IEnumerable<long> GetPoliciesNumbersByAgent(string agentName)
@@ -45,65 +46,12 @@ namespace Insurance.Domain.Services
 
         public PolicyDto GetPolicyByInsurerPhone(string phone)
         {
-            return MapInsurancePolicy(InsurancePolicyRepositoty.Get(p => p.Insurer.PhoneNumber == phone).FirstOrDefault());
+            return InsurancePolicyRepositoty.Get(p => p.Insurer.PhoneNumber == phone).FirstOrDefault().MapInsurancePolicy();
         }
 
         public PolicyDto GetPolicyByNumber(long number)
         {
-            return MapInsurancePolicy(InsurancePolicyRepositoty.Get(p => p.Number == number).FirstOrDefault());
-        }
-
-        #endregion
-
-        #region Helpers
-
-        private static InsurerDto MapInsurer(Insurer insurer)
-        {
-            if (insurer == null)
-            {
-                return null;
-            }
-
-            return new InsurerDto
-            {
-                Id = insurer.Id,
-                FirstName = insurer.FirstName,
-                LastName = insurer.LastName,
-                Phone = insurer.PhoneNumber
-            };
-        }
-
-        private static AgentDto MapAgent(Agent agent)
-        {
-            if (agent == null)
-            {
-                return null;
-            }
-
-            return new AgentDto
-            {
-                Id = agent.Id,
-                Name = agent.Name
-            };
-        }
-
-        private static PolicyDto MapInsurancePolicy(InsurancePolicy policy)
-        {
-            if (policy == null)
-            {
-                return null;
-            }
-
-            return new PolicyDto
-            {
-                Id = policy.Id,
-                DateFrom = policy.DateFrom,
-                DateTill = policy.DateTill,
-                Number = policy.Number,
-                Agent = MapAgent(policy.Agent),
-                Insurer = MapInsurer(policy.Insurer),
-                IsActive = policy.DateFrom < DateTime.Now && policy.DateTill > DateTime.Now
-            };
+            return InsurancePolicyRepositoty.Get(p => p.Number == number).FirstOrDefault().MapInsurancePolicy();
         }
 
         #endregion
